@@ -8,8 +8,8 @@ export interface AuditActor {
 
 export interface AuditEvent<T = any> {
   action: AuditAction;
-  module: string;                  // table/collection
-  entity: string;                  // Entity class name
+  module: string;
+  entity: string;
   entityId?: string | number;
   before?: Partial<T>;
   after?: Partial<T>;
@@ -17,7 +17,7 @@ export interface AuditEvent<T = any> {
   actor?: AuditActor;
   tenantId?: string | number;
   requestId?: string;
-  at: string;                      // ISO date
+  at: string;
   meta?: Record<string, any>;
 }
 
@@ -28,13 +28,9 @@ export interface AuditSink {
 
 export interface AuditOptions {
   includeDiff?: boolean;
-  redactions?: string[]; // e.g. ['password', 'token', 'card.number']
+  redactions?: string[];
   sinks: AuditSink[];
   actorResolver?: (req: any) => Partial<AuditActor> | undefined;
   tenantResolver?: (req: any) => string | number | undefined;
-  /**
-   * Required for attaching the subscriber to all active connections.
-   * Provide actual DataSource instances in forRootAsync.
-   */
-  dataSources?: any[]; // DataSource[]
+  dataSources?: any[];
 }

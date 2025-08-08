@@ -26,7 +26,6 @@ export class AuditService {
     await Promise.all(this.opts.sinks.map(s => s.emit(redacted)));
   }
 
-  /** Helper for the subscriber (normalizes id extraction). */
   async ormRecord(action: AuditEvent['action'], e: any, parts: { before?: any; after?: any }) {
     const id =
       e.entity?.id ??

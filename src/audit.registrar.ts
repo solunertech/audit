@@ -14,8 +14,7 @@ export class AuditRegistrar implements OnModuleInit {
     if (!this.opts.dataSources?.length) return;
     const sub = new AuditSubscriber(this.audit);
     for (const ds of this.opts.dataSources) {
-      // Avoid duplicates on hot reload
-      if (!ds.subscribers?.some((s: any) => s instanceof AuditSubscriber)) {
+      if (!ds?.subscribers?.some((s: any) => s instanceof AuditSubscriber)) {
         ds.subscribers.push(sub);
       }
     }
