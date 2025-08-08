@@ -1,6 +1,7 @@
 {
   "name": "@solunertech/audit",
   "version": "1.0.0",
+  "author": "Suraj S. suraj.shuklasts@gmail.com",
   "description": "Pluggable audit logging for NestJS + TypeORM (Postgres/MySQL/Mongo). Tracks who/when/what changed, with diff/redaction and multiple sinks.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
