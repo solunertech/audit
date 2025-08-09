@@ -1,7 +1,9 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';               
 import { AuditService } from './audit.service';
 import { AuditOptions } from './audit.types';
 import { AuditRegistrar } from './audit.registrar';
+import { AuditHttpInterceptor } from './audit-http.interceptor';
 
 @Global()
 @Module({})
@@ -13,8 +15,10 @@ export class AuditModule {
         { provide: 'AUDIT_OPTIONS', useValue: options },
         AuditService,
         AuditRegistrar,
+        { provide: APP_INTERCEPTOR, useClass: AuditHttpInterceptor },
       ],
-      exports: [AuditService],
+      // export both the service and the token (handy if the app wants it)
+      exports: [AuditService, 'AUDIT_OPTIONS'],                     
     };
   }
 
@@ -32,8 +36,9 @@ export class AuditModule {
         },
         AuditService,
         AuditRegistrar,
+        { provide: APP_INTERCEPTOR, useClass: AuditHttpInterceptor },
       ],
-      exports: [AuditService],
+      exports: [AuditService, 'AUDIT_OPTIONS'],                      
     };
   }
 }
