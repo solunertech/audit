@@ -1,9 +1,16 @@
+// in @solunertech/audit/src/audit.module.ts
 import { DynamicModule, Global, Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';               
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuditService } from './audit.service';
-import { AuditOptions } from './audit.types';
 import { AuditRegistrar } from './audit.registrar';
 import { AuditHttpInterceptor } from './audit-http.interceptor';
+import { AuditOptions } from './audit.types';
+
+type AsyncOpts = {
+  imports?: any[];
+  inject?: any[];
+  useFactory: (...args: any[]) => Promise<AuditOptions> | AuditOptions;
+};
 
 @Global()
 @Module({})
@@ -17,17 +24,14 @@ export class AuditModule {
         AuditRegistrar,
         { provide: APP_INTERCEPTOR, useClass: AuditHttpInterceptor },
       ],
-      // export both the service and the token (handy if the app wants it)
-      exports: [AuditService, 'AUDIT_OPTIONS'],                     
+      exports: [AuditService, 'AUDIT_OPTIONS'],
     };
   }
 
-  static forRootAsync(asyncOptions: {
-    inject?: any[];
-    useFactory: (...args: any[]) => Promise<AuditOptions> | AuditOptions;
-  }): DynamicModule {
+  static forRootAsync(asyncOptions: AsyncOpts): DynamicModule {
     return {
       module: AuditModule,
+      imports: asyncOptions.imports ?? [],
       providers: [
         {
           provide: 'AUDIT_OPTIONS',
@@ -38,7 +42,7 @@ export class AuditModule {
         AuditRegistrar,
         { provide: APP_INTERCEPTOR, useClass: AuditHttpInterceptor },
       ],
-      exports: [AuditService, 'AUDIT_OPTIONS'],                      
+      exports: [AuditService, 'AUDIT_OPTIONS'],
     };
   }
 }

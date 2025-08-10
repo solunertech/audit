@@ -1,6 +1,6 @@
 {
   "name": "@solunertech/audit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Pluggable audit logging for NestJS + TypeORM (Postgres/MySQL/Mongo). Tracks who/when/what changed, with diff/redaction and multiple sinks.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
